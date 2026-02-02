@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Impossible Choice</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(45deg, #f3e5f5, #e1f5fe, #e8f5e9, #fff3e0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #main-ui {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .button-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-width: 300px;
+        }
+
+        button {
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 12px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #yesBtn {
+            background-color: #6c5ce7;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background-color: #5b4bc4;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #ff7675;
+            color: white;
+            z-index: 999;
+            /* Short transition so it doesn't look like it's glitching, but "moving" */
+            transition: all 0.1s ease-out;
+        }
+
+        /* Celebration Screen */
+        #celebration {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #celebration img {
+            width: 320px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            color: #6c5ce7;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-ui">
+        <h1>Will you be my Valentine 😍 💗?</h1>
+        <div class="button-grid">
+            <button id="yesBtn">Yes!</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div id="celebration">
+        <h2>Hooray! 🎉</h2>
+        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHY5bXFidXFmZ3R0ZzZwdXQ0bmV6ZzR4eHh4eHh4eHh4eHh4eHgmZXD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TdfyKrN7HGTIY/giphy.gif" alt="Happy Celebration">
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainUi = document.getElementById('main-ui');
+        const celebration = document.getElementById('celebration');
+
+        // Function to move the "No" button to a random spot
+        const moveButton = () => {
+            const padding = 100; // Keep it away from the very edges
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Generate random coordinates within the viewport
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        };
+
+        // Triggers whenever the mouse enters the button area
+        noBtn.addEventListener('mouseenter', moveButton);
+        
+        // Also move it if they somehow manage to click it (touchscreens)
+        noBtn.addEventListener('click', moveButton);
+
+        // Show celebration when "Yes" is clicked
+        yesBtn.addEventListener('click', () => {
+            mainUi.style.display = 'none';
+            celebration.style.display = 'block';
+            document.body.style.background = "#fff0f3"; // Change background to soft pink
+        });
+    </script>
+</body>
+</html>
